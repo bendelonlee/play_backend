@@ -23,8 +23,8 @@ app.get('/api/v1/favorites', (request, response) => {
 
 app.get('/api/v1/favorites/:id', (request, response) => {
   database('favorites').where('id', request.params.id).select()
-    .then((favorites) => {
-      response.status(200).json(favorites);
+    .then((favorite) => {
+      response.status(200).json(favorite);
     })
     .catch((error) => {
       response.status(500).json({ error });
