@@ -91,6 +91,19 @@ describe("Favorites Endpoints", () => {
     });
   });
 
+  it("PUT /api/v1/favorites/:id", (done) => {
+    chai.request(app)
+    .put('/api/v1/favorites/2')
+    .send({"name":"Test Update"})
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res).to.have.status(200);
+      expect(res.body.name).to.eq("Test Update");
+
+      done();
+    });
+  });
+
   it("DELETE /api/v1/favorites/:id", (done) => {
     chai.request(app)
     .delete('/api/v1/favorites/2')
