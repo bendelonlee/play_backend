@@ -8,7 +8,7 @@ const db = require('knex')(require('../knexfile')['development']);
 
 describe("Favorites Endpoints", () => {
   before((done) => {
-    db.raw("TRUNCATE favorites restart identity CASCADE;")
+    db.raw("TRUNCATE favorites RESTART IDENTITY CASCADE;")
     .then(() => done())
     .catch(error => { throw error; });
   });
