@@ -93,7 +93,7 @@ describe("Favorites Endpoints", () => {
 
   it("DELETE /api/v1/favorites/:id", (done) => {
     chai.request(app)
-    .delete('/api/v1/favorites/')
+    .delete('/api/v1/favorites/2')
     .end((err, res) => {
       expect(err).to.be.null;
       expect(res).to.have.status(204);
