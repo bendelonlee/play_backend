@@ -56,6 +56,16 @@ app.post('/api/v1/favorites', (request, response) => {
     });
 });
 
+app.delete('/api/v1/favorites/:id', (request, response) => {
+  database('favorites').where('id', request.params.id).del()
+    .then(() => {
+      response.status(204).send();
+    })
+    .catch((error) => {
+      response.status(500).json({ error });
+    });
+});
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });

@@ -76,7 +76,7 @@ describe("Favorites Endpoints", () => {
       "genre": "Test Genre",
       "rating": 75
     }
-    
+
     chai.request(app)
     .post('/api/v1/favorites/')
     .send(new_fav)
@@ -86,6 +86,17 @@ describe("Favorites Endpoints", () => {
       expect(res).to.be.json;
 
       expect(res.body).to.have.property('id');
+
+      done();
+    });
+  });
+
+  it("DELETE /api/v1/favorites/:id", (done) => {
+    chai.request(app)
+    .delete('/api/v1/favorites/2')
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res).to.have.status(204);
 
       done();
     });
