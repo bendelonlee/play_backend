@@ -36,8 +36,10 @@ app.post('/api/v1/favorites', (request, response) => {
 
   var missing = [];
 
-  for (let requiredParameter of ['name', 'artist_name', 'genre', 'rating']) {
-    if (!favorite[requiredParameter]) {
+  const allowed_props = ['name', 'artist_name', 'genre', 'rating'];
+
+  for (let requiredParameter of allowed_props) {
+    if (!allowed_props.includes(requiredParameter)) {
       missing.push(requiredParameter);
     }
   }
@@ -49,7 +51,27 @@ app.post('/api/v1/favorites', (request, response) => {
 
   database('favorites').insert(favorite, ['id'])
     .then(favorite => {
-      response.status(201).json(favorite[0])
+      response.status(201).json(favorite[0]);
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
+app.put('/api/v1/favorites/:id', (request, response) => {
+  const favorite = request.body
+
+  const allowed_props = ['name', 'artist_name', 'genre', 'rating'];
+
+  for(var prop of Object.keys(favorite)) {
+    if(!allowed_props.includes(prop)) {
+      response.status(400).json({"error": `"${prop}" is not a valid, updatable property for "favorite".`})
+    }
+  }
+
+  database('favorites').where('id', request.params.id).update(favorite, ['name', 'artist_name', 'genre', 'rating'])
+    .then(favorite => {
+      response.status(200).json(favorite[0]);
     })
     .catch(error => {
       response.status(500).json({ error });
