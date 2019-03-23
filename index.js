@@ -23,13 +23,39 @@ app.get('/api/v1/favorites', (request, response) => {
 
 app.get('/api/v1/favorites/:id', (request, response) => {
   database('favorites').where('id', request.params.id).select()
-    .then((favorites) => {
-      response.status(200).json(favorites);
+    .then((favorite) => {
+      response.status(200).json(favorite);
     })
     .catch((error) => {
       response.status(500).json({ error });
     });
 });
+
+app.post('/api/v1/favorites', (request, response) => {
+  const favorite = request.body;
+
+  var missing = [];
+
+  for (let requiredParameter of ['name', 'artist_name', 'genre', 'rating']) {
+    if (!favorite[requiredParameter]) {
+      missing.push(requiredParameter);
+    }
+  }
+
+  if (missing.length > 0) {
+    return response.status(422)
+      .send({ error: `Expected format: { name: <String>, artist_name: <String>, genre: <String>, rating: <Integer> }. You're missing "${missing.join(', ')}" properties.` });
+  }
+
+  database('favorites').insert(favorite, ['id'])
+    .then(favorite => {
+      response.status(201).json(favorite[0])
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });

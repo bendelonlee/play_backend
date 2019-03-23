@@ -65,6 +65,34 @@ describe("Favorites Endpoints", () => {
       expect(res.body[0].genre).to.eq("Rock");
       expect(res.body[0].rating).to.eq(88);
 
+      expect(res.body[0].id).to.eq(1);
+      expect(res.body[0].name).to.eq("We Will Rock You");
+      expect(res.body[0].artist_name).to.eq("Queen");
+      expect(res.body[0].genre).to.eq("Rock");
+      expect(res.body[0].rating).to.eq(88);
+
+      done();
+    });
+  });
+
+  it("POST /api/v1/favorites/", (done) => {
+    var new_fav = {
+      "name": "Test Song",
+      "artist_name": "Test Artist",
+      "genre": "Test Genre",
+      "rating": 75
+    }
+    
+    chai.request(app)
+    .post('/api/v1/favorites/')
+    .send(new_fav)
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res).to.have.status(201);
+      expect(res).to.be.json;
+
+      expect(res.body).to.have.property('id');
+
       done();
     });
   });
