@@ -6,7 +6,6 @@ chai.use(chaiHttp);
 const app = require('../index').app;
 const db = require('knex')(require('../knexfile')['development']);
 
-
 describe("Favorites Endpoints", () => {
   before((done) => {
     db.raw("TRUNCATE playlists_favorites restart identity;")
@@ -73,5 +72,6 @@ describe("Favorites Endpoints", () => {
 
         done();
       });
+    });
   });
 });
