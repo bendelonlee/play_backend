@@ -68,4 +68,26 @@ describe("Favorites Endpoints", () => {
       done();
     });
   });
+
+  it("POST /api/v1/favorites/", (done) => {
+    var new_fav = {
+      "name": "Test Song",
+      "artist_name": "Test Artist",
+      "genre": "Test Genre",
+      "rating": 75
+    }
+    
+    chai.request(app)
+    .post('/api/v1/favorites/')
+    .send(new_fav)
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res).to.have.status(201);
+      expect(res).to.be.json;
+
+      expect(res.body).to.have.property('id');
+
+      done();
+    });
+  });
 });
