@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
   return Promise.all([
-    knex.schema.createTable('favorites', function(table) {
+    knex.schema.createTable('favorites', (table) => {
       table.increments('id').primary();
       table.string('name');
       table.string('artist_name');
@@ -10,26 +10,26 @@ exports.up = function(knex, Promise) {
 
       table.timestamps(true, true);
     }),
-    knex.schema.createTable('playlists_favorites', function(table){
+    knex.schema.createTable('playlists', (table) => {
       table.increments('id').primary();
-      table.integer('favorite_id').references('favorites.id');
-      table.integer('playlist_id').references('playlists.id');
+      table.string('title');
 
       table.timestamps(true, true);
     }),
-    knex.schema.createTable('playlists', function(table){
+    knex.schema.createTable('playlists_favorites', (table) => {
       table.increments('id').primary();
-      table.string('title');
+      table.integer('favorite_id').references('favorites.id');
+      table.integer('playlist_id').references('playlists.id');
 
       table.timestamps(true, true);
     })
   ]);
 }
 
-exports.down = function(knex, Promise) {
+exports.down = (knex, Promise) => {
   return Promise.all([
-    knex.schema.dropTable('favorites'),
     knex.schema.dropTable('playlists_favorites'),
+    knex.schema.dropTable('favorites'),
     knex.schema.dropTable('playlists')
   ]);
 }
