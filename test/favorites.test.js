@@ -8,9 +8,7 @@ const db = require('knex')(require('../knexfile')['development']);
 
 describe("Favorites Endpoints", () => {
   before((done) => {
-    db.raw("TRUNCATE playlists_favorites restart identity;")
-    .then(() => db.raw("TRUNCATE playlists restart identity CASCADE;"))
-    .then(() => db.raw("TRUNCATE favorites restart identity CASCADE;"))
+    db.raw("TRUNCATE favorites RESTART IDENTITY CASCADE;")
     .then(() => done())
     .catch(error => { throw error; });
   });
@@ -86,6 +84,19 @@ describe("Favorites Endpoints", () => {
       expect(res).to.be.json;
 
       expect(res.body).to.have.property('id');
+
+      done();
+    });
+  });
+
+  it("PUT /api/v1/favorites/:id", (done) => {
+    chai.request(app)
+    .put('/api/v1/favorites/2')
+    .send({"name":"Test Update"})
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res).to.have.status(200);
+      expect(res.body.name).to.eq("Test Update");
 
       done();
     });
