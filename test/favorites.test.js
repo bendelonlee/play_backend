@@ -36,16 +36,16 @@ describe("Favorites Endpoints", () => {
       expect(res).to.be.json;
 
       expect(res.body[0].id).to.eq(1);
-      expect(res.body[0].name).to.eq("We Will Rock You");
-      expect(res.body[0].artist_name).to.eq("Queen");
-      expect(res.body[0].genre).to.eq("Rock");
-      expect(res.body[0].rating).to.eq(88);
+      expect(res.body[0].name).to.eq("song1");
+      expect(res.body[0].artist_name).to.eq("artist1");
+      expect(res.body[0].genre).to.eq("genre1");
+      expect(res.body[0].rating).to.eq(1);
 
       expect(res.body[1].id).to.eq(2);
-      expect(res.body[1].name).to.eq("Bohemian Rhapsody");
-      expect(res.body[1].artist_name).to.eq("Queen");
-      expect(res.body[1].genre).to.eq("Rock");
-      expect(res.body[1].rating).to.eq(66);
+      expect(res.body[1].name).to.eq("song2");
+      expect(res.body[1].artist_name).to.eq("artist2");
+      expect(res.body[1].genre).to.eq("genre2");
+      expect(res.body[1].rating).to.eq(2);
 
       done();
     });
@@ -60,10 +60,10 @@ describe("Favorites Endpoints", () => {
       expect(res).to.be.json;
 
       expect(res.body[0].id).to.eq(1);
-      expect(res.body[0].name).to.eq("We Will Rock You");
-      expect(res.body[0].artist_name).to.eq("Queen");
-      expect(res.body[0].genre).to.eq("Rock");
-      expect(res.body[0].rating).to.eq(88);
+      expect(res.body[0].name).to.eq("song1");
+      expect(res.body[0].artist_name).to.eq("artist1");
+      expect(res.body[0].genre).to.eq("genre1");
+      expect(res.body[0].rating).to.eq(1);
 
       done();
     });
@@ -97,7 +97,7 @@ describe("Favorites Endpoints", () => {
     .end((err, res) => {
       expect(err).to.be.null;
       expect(res).to.have.status(204);
-
+      
       done();
     });
   });

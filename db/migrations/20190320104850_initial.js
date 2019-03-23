@@ -18,8 +18,8 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTable('playlists_favorites', (table) => {
       table.increments('id').primary();
-      table.integer('favorite_id').references('favorites.id');
-      table.integer('playlist_id').references('playlists.id');
+      table.integer('favorite_id').references('favorites.id').onDelete('CASCADE');
+      table.integer('playlist_id').references('playlists.id').onDelete('CASCADE');
 
       table.timestamps(true, true);
     })
