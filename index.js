@@ -13,6 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Play Backend';
 
+const favorite_allowed_props = ['name', 'artist_name', 'genre', 'rating'];
+
 app.get('/api/v1/favorites', (request, response) => {
   database('favorites').select()
     .then((favorites) => {
@@ -38,8 +40,8 @@ app.post('/api/v1/favorites', (request, response) => {
 
   var missing = [];
 
-  for (let requiredParameter of ['name', 'artist_name', 'genre', 'rating']) {
-    if (!favorite[requiredParameter]) {
+  for (let requiredParameter of favorite_allowed_props) {
+    if (!favorite_allowed_props.includes(requiredParameter)) {
       missing.push(requiredParameter);
     }
   }
@@ -51,7 +53,25 @@ app.post('/api/v1/favorites', (request, response) => {
 
   database('favorites').insert(favorite, ['id'])
     .then(favorite => {
-      response.status(201).json(favorite[0])
+      response.status(201).json(favorite[0]);
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
+app.put('/api/v1/favorites/:id', (request, response) => {
+  const favorite = request.body
+
+  for(var prop of Object.keys(favorite)) {
+    if(!favorite_allowed_props.includes(prop)) {
+      response.status(400).json({"error": `"${prop}" is not a valid, updatable property for "favorite".`})
+    }
+  }
+
+  database('favorites').where('id', request.params.id).update(favorite, ['name', 'artist_name', 'genre', 'rating'])
+    .then(favorite => {
+      response.status(200).json(favorite[0]);
     })
     .catch(error => {
       response.status(500).json({ error });

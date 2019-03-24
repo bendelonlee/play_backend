@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - 11.12.0
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database play_backend;' -U postgres
+  - knex migrate:latest
+deploy:
+  provider: heroku
+  app: play-backend
+  api_key:
+    secure: CXPtc6udEC6kB+s0LTxeF7tsahfNu+txXlOWE7rWmG97XfgHuCL1mNPBhO1NdH1dExJmp0OckeWLR73vDKYKqhiydprf6Q7tGrpO2b7ctudi4KYPzPk+Ns9zTgz6aiC74KoOrZHKz4ZZpErDiniO0sJhlpd5DrVbXPvO/kZz0YpLQ5M4uV7VuJ6+c47K5OIw0C/EQ5YEF8dL8ufkjZNgk3BheJ3L5nKtBEWBUpl9B6y6/1+WMgUZUajR0KZbVAsWFj7ExPjVUTcbY+n+kOxiENOe7agZ/cHsboEBoy+Nui3DNnfZ5Z2JPSOOyuodiw5YH46L0Zveq0z7thGOdkYUollMfNWVZtYIknil4v+8THEjqcJhLtj0Pf4DlROMMN4LupTW5Y954zgHFxKckH6BP5BJeMq9HB1OdUqdQQFZ/sSTo7W9FbP7x6SK3brNIxxdc5Lm90hTsP49wvSr0hvL/7UdDl3bfZXCstf8Oh5bJO1nu18+Y9ePTrRYGQcMa5bfRPm2iMEvYdkUcBbDlZGeqjbxyOUSfBle/F/tQFP5/9aUK/TiKWAaXfdIvrD0F/dyq8w1bV9iJ4BjsCAh5y4/b14EzdHf3t8Z6frzdY/5l34SrnkfjOvb/6O9pVRF8SItSQhBLgM9XHw+jI/vx0mbgHMZOKj1x9t/i8K0AscPwuI=
