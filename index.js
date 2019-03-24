@@ -15,14 +15,17 @@ app.locals.title = 'Play Backend';
 
 const favorite_allowed_props = ['name', 'artist_name', 'genre', 'rating'];
 
+function handleError(error, response) {
+  console.log(error)
+  response.status(500).json({ error });
+}
+
 app.get('/api/v1/favorites', (request, response) => {
   database('favorites').select()
     .then((favorites) => {
       response.status(200).json(favorites);
     })
-    .catch((error) => {
-      response.status(500).json({ error });
-    });
+    .catch((error) => handleError(error, response));
 });
 
 app.get('/api/v1/favorites/:id', (request, response) => {
@@ -30,9 +33,7 @@ app.get('/api/v1/favorites/:id', (request, response) => {
     .then((favorite) => {
       response.status(200).json(favorite);
     })
-    .catch((error) => {
-      response.status(500).json({ error });
-    });
+    .catch((error) => handleError(error, response));
 });
 
 app.post('/api/v1/favorites', (request, response) => {
@@ -55,9 +56,7 @@ app.post('/api/v1/favorites', (request, response) => {
     .then(favorite => {
       response.status(201).json(favorite[0]);
     })
-    .catch(error => {
-      response.status(500).json({ error });
-    });
+    .catch((error) => handleError(error, response));
 });
 
 app.put('/api/v1/favorites/:id', (request, response) => {
@@ -73,9 +72,7 @@ app.put('/api/v1/favorites/:id', (request, response) => {
     .then(favorite => {
       response.status(200).json(favorite[0]);
     })
-    .catch(error => {
-      response.status(500).json({ error });
-    });
+    .catch((error) => handleError(error, response));
 });
 
 app.delete('/api/v1/favorites/:id', (request, response) => {
@@ -83,9 +80,7 @@ app.delete('/api/v1/favorites/:id', (request, response) => {
     .then(() => {
       response.status(204).send();
     })
-    .catch((error) => {
-      response.status(500).json({ error });
-    });
+    .catch((error) => handleError(error, response));
 });
 
 app.get('/api/v1/playlists', (request, response) => {
@@ -103,9 +98,7 @@ app.get('/api/v1/playlists', (request, response) => {
     });
     response.status(200).json(playlists)
   })
-  .catch((error) => {
-    response.status(500).json({ error });
-  });
+  .catch((error) => handleError(error, response));
 });
 
 app.listen(app.get('port'), () => {
