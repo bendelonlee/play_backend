@@ -84,7 +84,6 @@ app.get('/api/v1/playlists', (request, response) => {
     response.status(200).json(playlists)
   })
   .catch((error) => {
-    console.log(error);
     response.status(500).json({ error });
   });
 });
