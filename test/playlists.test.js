@@ -51,7 +51,23 @@ describe("Playlists Endpoints", () => {
       expect(res.body[1].favorites[0].genre).to.eq('genre2');
       expect(res.body[1].favorites[0].rating).to.eq(2);
 
+      expect(res.body[2].id).to.eq(3);
+      expect(res.body[2].title).to.eq("playlist3");
+      expect(res.body[2].favorites[0].id).to.eq(3);
+      expect(res.body[2].favorites[0].name).to.eq('song3');
+      expect(res.body[2].favorites[0].artist_name).to.eq('artist3');
+      expect(res.body[2].favorites[0].genre).to.eq('genre3');
+      expect(res.body[2].favorites[0].rating).to.eq(3);
+
       done();
     });
   });
+  // 
+  // it("GET /api/v1/playlists/:playlist_id/favorites", (done) => {
+  //   chai.request(app)
+  //   .get('/api/v1/playlists')
+  //   .end((err, res) => {
+  //     done();
+  //   });
+  // })
 });
