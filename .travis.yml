@@ -6,6 +6,7 @@ addons:
 before_script:
   - psql -c 'CREATE DATABASE play_backend;' -U postgres
   - knex migrate:latest
+  - knex seed:run
 deploy:
   provider: heroku
   app: play-backend
