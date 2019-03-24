@@ -69,33 +69,24 @@ app.delete('/api/v1/favorites/:id', (request, response) => {
 });
 
 app.get('/api/v1/playlists', (request, response) => {
-  database('playlists').select()
-    .then(playlists => {
-      var proms = [];
-      for (var i = 0; i < playlists.length; i++) {
-        var playlist = playlists[i];
-
-        proms.push(database('favorites')
-          .select('favorites.*')
-          .where('playlists.id', playlist.id)
-          .innerJoin('playlists_favorites', 'favorites.id', 'playlists_favorites.favorite_id')
-          .innerJoin('playlists', 'playlists.id', 'playlists_favorites.playlist_id')
-          .then(favorites => {
-            playlist.favorites = favorites;
-            eval(require('pryjs').it);
-            return playlist;
-          })
-        );
-      }
-      return Promise.all(proms);
-    })
-    .then(playlists => {
-      response.status(200).json(playlists)
-    })
-    .catch((error) => {
-      console.log(error);
-      response.status(500).json({ error });
+  database('playlists')
+  .innerJoin('playlists_favorites', 'playlists.id', 'playlists_favorites.playlist_id')
+  .innerJoin('favorites', 'favorites.id', 'playlists_favorites.favorite_id')
+  .select(['playlists.id', 'playlists.title', database.raw("JSON_AGG(favorites) as favorites")])
+  .groupBy('playlists.id', 'playlists_favorites.id', 'favorites.id')
+  .then(playlists => {
+    playlists.forEach(e => {
+      e.favorites.forEach(fav => {
+        delete fav.created_at;
+        delete fav.updated_at;
+      });
     });
+    response.status(200).json(playlists)
+  })
+  .catch((error) => {
+    console.log(error);
+    response.status(500).json({ error });
+  });
 });
 
 app.listen(app.get('port'), () => {
