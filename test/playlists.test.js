@@ -31,17 +31,25 @@ describe("Playlists Endpoints", () => {
     chai.request(app)
     .get('/api/v1/playlists')
     .end((err, res) => {
-      console.log(res.body)
       expect(err).to.be.null;
       expect(res).to.have.status(200);
       expect(res).to.be.json;
 
       expect(res.body[0].id).to.eq(1);
       expect(res.body[0].title).to.eq("playlist1");
-      expect(res.body[0].favorites[0]).to.eq({});
+      expect(res.body[0].favorites[0].id).to.eq(1);
+      expect(res.body[0].favorites[0].name).to.eq('song1');
+      expect(res.body[0].favorites[0].artist_name).to.eq('artist1');
+      expect(res.body[0].favorites[0].genre).to.eq('genre1');
+      expect(res.body[0].favorites[0].rating).to.eq(1);
 
       expect(res.body[1].id).to.eq(2);
       expect(res.body[1].title).to.eq("playlist2");
+      expect(res.body[1].favorites[0].id).to.eq(2);
+      expect(res.body[1].favorites[0].name).to.eq('song2');
+      expect(res.body[1].favorites[0].artist_name).to.eq('artist2');
+      expect(res.body[1].favorites[0].genre).to.eq('genre2');
+      expect(res.body[1].favorites[0].rating).to.eq(2);
 
       done();
     });
