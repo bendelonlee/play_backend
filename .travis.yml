@@ -1,11 +1,14 @@
 language: node_js
 node_js:
   - 11.12.0
+before_script:
+  - psql --version
+  - psql -c 'CREATE DATABASE play_backend;' -U postgres
+  - knex migrate:latest
 services:
   - postgresql
-before_script:
-  - psql -c 'create database play_backend;' -U postgres
-  - knex migrate:latest
+addons:
+  postgresql: "9.4"
 deploy:
   provider: heroku
   app: play-backend
