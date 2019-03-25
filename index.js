@@ -26,25 +26,6 @@ function handleError(error, response) {
 app.use('/api/v1/favorites', favoritesRoutes);
 
 app.use('/api/v1/playlists', playlistsRoutes);
-app.get('', );
-
-(request, response) => {
-  database('playlists')
-  .innerJoin('playlists_favorites', 'playlists.id', 'playlists_favorites.playlist_id')
-  .innerJoin('favorites', 'favorites.id', 'playlists_favorites.favorite_id')
-  .select(['playlists.id', 'playlists.title', database.raw("JSON_AGG(favorites) as favorites")])
-  .groupBy('playlists.id', 'playlists_favorites.id', 'favorites.id')
-  .then(playlists => {
-    playlists.forEach(e => {
-      e.favorites.forEach(fav => {
-        delete fav.created_at;
-        delete fav.updated_at;
-      });
-    });
-    response.status(200).json(playlists)
-  })
-  .catch((error) => handleError(error, response));
-}
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
