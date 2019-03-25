@@ -35,6 +35,8 @@ describe("Playlists Endpoints", () => {
       expect(res).to.have.status(200);
       expect(res).to.be.json;
 
+      console.log(res.body)
+
       expect(res.body[0].id).to.eq(1);
       expect(res.body[0].title).to.eq("playlist1");
       expect(res.body[0].favorites[0].id).to.eq(1);
@@ -62,7 +64,7 @@ describe("Playlists Endpoints", () => {
       done();
     });
   });
-  // 
+  //
   // it("GET /api/v1/playlists/:playlist_id/favorites", (done) => {
   //   chai.request(app)
   //   .get('/api/v1/playlists')
