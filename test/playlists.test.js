@@ -44,6 +44,18 @@ describe("Playlists Endpoints", () => {
       done();
     });
   });
+
+  it("POST /api/v1/playlists/:playlist_id/favorites/:favorite_id", (done) => {
+    chai.request(app)
+    .post('/api/v1/playlists/1/favorites/2')
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res).to.have.status(201);
+
+      expect(res.body.message).to.eq('Successfully added song2 to playlist1');
+      done();
+    });
+  })
   //
   // it("GET /api/v1/playlists/:playlist_id/favorites", (done) => {
   //   chai.request(app)
