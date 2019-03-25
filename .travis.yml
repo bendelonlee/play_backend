@@ -9,9 +9,6 @@ services:
   - postgresql
 addons:
   postgresql: "9.4"
-env:
-  global:
-  - PGPORT=5433
 deploy:
   provider: heroku
   app: play-backend
