@@ -1,20 +1,14 @@
 language: node_js
 node_js:
   - 11.12.0
-before_install:
-  - sudo apt-get update
-  - sudo apt-get --yes remove postgresql\*
-  - sudo apt-get install -y postgresql-11 postgresql-client-11
-  - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
-  - sudo service postgresql restart 11
 before_script:
   - psql --version
   - psql -c 'CREATE DATABASE play_backend;' -U postgres
   - knex migrate:latest
 services:
   - postgresql
-addons:
-  postgresql: "11.2"
+services:
+  postgresql: "9.3"
 env:
   global:
   - PGPORT=5433
