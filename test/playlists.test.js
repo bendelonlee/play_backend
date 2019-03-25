@@ -56,12 +56,24 @@ describe("Playlists Endpoints", () => {
       done();
     });
   })
-  //
-  // it("GET /api/v1/playlists/:playlist_id/favorites", (done) => {
-  //   chai.request(app)
-  //   .get('/api/v1/playlists')
-  //   .end((err, res) => {
-  //     done();
-  //   });
-  // })
+
+  it("GET /api/v1/playlists/:id/favorites", (done) => {
+    chai.request(app)
+    .get('/api/v1/playlists/1/favorites')
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res).to.have.status(200);
+
+      expect(res.body).to.be.a('array');
+
+      res.body.forEach((favorite) => {
+        expect(favorite).to.have.property('id')
+        expect(favorite).to.have.property('name')
+        expect(favorite).to.have.property('artist_name')
+        expect(favorite).to.have.property('genre')
+        expect(favorite).to.have.property('rating')
+      });
+      done();
+    });
+  })
 });
