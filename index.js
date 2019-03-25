@@ -7,6 +7,11 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
+const Favorite = require('./lib/models/favorite');
+// const Playlist = require('./lib/models/playlist');
+
+const favoritesRoutes = require('./lib/routes/favorites');
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,16 +25,10 @@ function handleError(error, response) {
   response.status(500).json({ error });
 }
 
-app.get('/api/v1/favorites', (request, response) => {
-  database('favorites').select()
-    .then((favorites) => {
-      response.status(200).json(favorites);
-    })
-    .catch((error) => handleError(error, response));
-});
+app.use('/api/v1/favorites', favoritesRoutes);
 
 app.get('/api/v1/favorites/:id', (request, response) => {
-  database('favorites').where('id', request.params.id).select()
+  Favorite.find(request.params.id)
     .then((favorite) => {
       response.status(200).json(favorite);
     })
@@ -52,7 +51,7 @@ app.post('/api/v1/favorites', (request, response) => {
       .send({ error: `Expected format: { name: <String>, artist_name: <String>, genre: <String>, rating: <Integer> }. You're missing "${missing.join(', ')}" properties.` });
   }
 
-  database('favorites').insert(favorite, ['id'])
+  Favorite.create(favorite)
     .then(favorite => {
       response.status(201).json(favorite[0]);
     })
@@ -68,7 +67,7 @@ app.put('/api/v1/favorites/:id', (request, response) => {
     }
   }
 
-  database('favorites').where('id', request.params.id).update(favorite, ['name', 'artist_name', 'genre', 'rating'])
+  Favorite.update(request.params.id, favorite)
     .then(favorite => {
       response.status(200).json(favorite[0]);
     })
@@ -76,7 +75,7 @@ app.put('/api/v1/favorites/:id', (request, response) => {
 });
 
 app.delete('/api/v1/favorites/:id', (request, response) => {
-  database('favorites').where('id', request.params.id).del()
+  Favorite.del(request.params.id)
     .then(() => {
       response.status(204).send();
     })

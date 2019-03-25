@@ -35,8 +35,6 @@ describe("Playlists Endpoints", () => {
       expect(res).to.have.status(200);
       expect(res).to.be.json;
 
-      console.log(res.body)
-
       expect(res.body[0].id).to.eq(1);
       expect(res.body[0].title).to.eq("playlist1");
       expect(res.body[0].favorites[0].id).to.eq(1);
