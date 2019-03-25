@@ -7,10 +7,10 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
-const Favorite = require('./lib/models/favorite');
-// const Playlist = require('./lib/models/playlist');
+const Playlist = require('./lib/models/playlist');
 
 const favoritesRoutes = require('./lib/routes/favorites');
+const playlistsRoutes = require('./lib/routes/playlists');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -25,11 +25,10 @@ function handleError(error, response) {
 
 app.use('/api/v1/favorites', favoritesRoutes);
 
-// app.put('/api/v1/favorites/:id', );
+app.use('/api/v1/playlists', playlistsRoutes);
+app.get('', );
 
-// app.delete('/api/v1/favorites/:id', );
-
-app.get('/api/v1/playlists', (request, response) => {
+(request, response) => {
   database('playlists')
   .innerJoin('playlists_favorites', 'playlists.id', 'playlists_favorites.playlist_id')
   .innerJoin('favorites', 'favorites.id', 'playlists_favorites.favorite_id')
@@ -45,7 +44,7 @@ app.get('/api/v1/playlists', (request, response) => {
     response.status(200).json(playlists)
   })
   .catch((error) => handleError(error, response));
-});
+}
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
