@@ -57,6 +57,18 @@ describe("Playlists Endpoints", () => {
     });
   })
 
+  it("DELETE /api/v1/playlists/:playlist_id/favorites/:favorite_id", (done) => {
+    chai.request(app)
+    .delete('/api/v1/playlists/1/favorites/1')
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res).to.have.status(200);
+      
+      expect(res.body.message).to.eq('Successfully removed song1 to playlist1');
+      done();
+    });
+  })
+
   it("GET /api/v1/playlists/:id/favorites", (done) => {
     chai.request(app)
     .get('/api/v1/playlists/1/favorites')
