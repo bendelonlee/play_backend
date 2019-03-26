@@ -63,8 +63,8 @@ describe("Playlists Endpoints", () => {
     .end((err, res) => {
       expect(err).to.be.null;
       expect(res).to.have.status(200);
-      
-      expect(res.body.message).to.eq('Successfully removed song1 to playlist1');
+
+      expect(res.body.message).to.eq('Successfully removed song1 from playlist1');
       done();
     });
   })
