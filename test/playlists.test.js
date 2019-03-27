@@ -35,6 +35,8 @@ describe("Playlists Endpoints", () => {
       expect(res).to.have.status(200);
       expect(res).to.be.json;
 
+      expect(res.body.length).to.eq(3);
+
       res.body.forEach((playlist) => {
         expect(playlist).to.have.property('id')
         expect(playlist).to.have.property('title')
