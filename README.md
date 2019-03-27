@@ -43,3 +43,10 @@ or
 ```bash
 mocha --exit test/
 ```
+
+## Tech Stack
+- Express.js
+- Knex.js
+- Heroku
+- Travis CI
+- node/npm
