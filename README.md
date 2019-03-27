@@ -1,5 +1,7 @@
 # Play Backend [![Build Status](https://travis-ci.org/bendelonlee/play_backend.svg?branch=master)](https://travis-ci.org/bendelonlee/play_backend)
 
+## Introduction
+
 Play is a full-stack javascript playlist management app built using Express.js and Knex.js. This repository contains the backend API being accessed from the separate front end found [here](https://github.com/bendelonlee/playFrontend).
 
 You can access the api here: https://play-backend.herokuapp.com/
